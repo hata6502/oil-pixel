@@ -81,7 +81,7 @@ export const App: FunctionComponent = () => {
   return (
     <div className="bg-white mx-auto max-w-4xl mb-16 px-8">
       <div className="mt-16">
-        <h2 className="flex items-center gap-x-4 text-5xl font-bold">
+        <h2 className="flex flex-col-reverse items-center gap-4 text-5xl font-bold md:flex-row">
           油彩ドット絵メーカー
           <img src="favicon.png" className="inline w-24" />
         </h2>
@@ -89,15 +89,21 @@ export const App: FunctionComponent = () => {
         <p className="mt-8">写真を油彩風のドット絵に変換するアプリです。</p>
 
         <div className="mt-4 grid grid-cols-1 gap-2 md:grid-cols-2">
-          <img
-            src="https://i.gyazo.com/78f191032afc97154b073410e8f25bc3.jpg"
-            alt="サンプル原画像"
-          />
+          <figure className="order-2 md:order-1">
+            <img
+              src="https://i.gyazo.com/78f191032afc97154b073410e8f25bc3.jpg"
+              alt=""
+            />
+            <figcaption>原画像</figcaption>
+          </figure>
 
-          <img
-            src="https://i.gyazo.com/34e908f1cf807589bc74e62494042d0b.png"
-            alt="変換後のサンプル画像"
-          />
+          <figure className="order-1 md:order-2">
+            <img
+              src="https://i.gyazo.com/34e908f1cf807589bc74e62494042d0b.png"
+              alt=""
+            />
+            <figcaption>油彩ドット絵</figcaption>
+          </figure>
         </div>
       </div>
 
@@ -237,7 +243,7 @@ const Tweets: FunctionComponent = () => {
   return (
     <div
       ref={tweetContainerRef}
-      className="mt-2 grid grid-cols-1 gap-x-4 gap-y-4 md:grid-cols-3"
+      className="mt-2 grid grid-cols-1 gap-4 md:grid-cols-3"
     />
   );
 };
