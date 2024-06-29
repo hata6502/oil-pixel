@@ -1,5 +1,19 @@
-import { DocumentTextIcon, PhotoIcon } from "@heroicons/react/24/outline";
-import { FunctionComponent, Suspense, useEffect, useRef } from "react";
+import {
+  DocumentTextIcon,
+  PhotoIcon,
+  ShareIcon,
+} from "@heroicons/react/24/outline";
+import clsx from "clsx";
+import {
+  ChangeEventHandler,
+  FunctionComponent,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
+import { mibaeFilter } from "./mibaeFilter";
 
 const faqs = [
   {
@@ -16,40 +30,130 @@ const tweetIDsURL =
   "https://script.google.com/macros/s/AKfycbx1Lec0RXfLou1Ixz3-hg6lFHoQdkTDSCFhtYIwQ9_OyWx36f3JYIxGdia9kLdx4DYe/exec";
 
 export const App: FunctionComponent = () => {
+  const [converting, setConverting] = useState(false);
+  const [mibaeImageDataURL, setMibaeImageDataURL] = useState("");
+  const imageInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSelectImageButtonClick = () => {
+    if (!imageInputRef.current) {
+      throw new Error("imageInputRef.current is null");
+    }
+
+    imageInputRef.current.click();
+  };
+
+  const handleImageInputChange: ChangeEventHandler<HTMLInputElement> = async (
+    event
+  ) => {
+    setConverting(true);
+    try {
+      const imageFile = event.target.files?.[0];
+      if (!imageFile) {
+        return;
+      }
+
+      const imageDataURL = await new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (typeof reader.result !== "string") {
+            throw new Error("reader.result is not string");
+          }
+          resolve(reader.result);
+        };
+        reader.readAsDataURL(imageFile);
+      });
+
+      const image = new Image();
+      await new Promise((resolve) => {
+        image.onload = resolve;
+        image.src = imageDataURL;
+      });
+
+      for (const mibaeImageDataURL of mibaeFilter(image)) {
+        setMibaeImageDataURL(mibaeImageDataURL);
+        await new Promise((resolve) => setTimeout(resolve));
+      }
+    } finally {
+      setConverting(false);
+    }
+  };
+
   return (
     <div className="bg-white mx-auto max-w-4xl mb-16 px-8">
       <div className="mt-16">
-        <h2 className="flex items-center gap-x-2 text-5xl font-bold">
+        <h2 className="flex items-center gap-x-4 text-5xl font-bold">
           油彩ドット絵メーカー
           <img src="favicon.png" className="inline w-24" />
         </h2>
 
         <p className="mt-8">写真を油彩風のドット絵に変換するアプリです。</p>
 
-        <div className="mt-8 grid grid-cols-1 gap-2 md:grid-cols-2">
+        <div className="mt-4 grid grid-cols-1 gap-2 md:grid-cols-2">
           <img
             src="https://i.gyazo.com/78f191032afc97154b073410e8f25bc3.jpg"
-            alt="原画像"
+            alt="サンプル原画像"
           />
 
           <img
             src="https://i.gyazo.com/34e908f1cf807589bc74e62494042d0b.png"
-            alt="変換後の画像"
+            alt="変換後のサンプル画像"
           />
-        </div>
-
-        <div className="mt-16">
-          <button
-            type="button"
-            className="w-full flex items-center justify-center gap-x-2 rounded-md bg-neutral-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900"
-          >
-            画像を選択
-            <PhotoIcon className="h-6 w-6" aria-hidden="true" />
-          </button>
         </div>
       </div>
 
       <div className="mt-16">
+        <button
+          disabled={converting}
+          onClick={handleSelectImageButtonClick}
+          className={clsx(
+            "w-full flex items-center justify-center gap-x-2 rounded-md bg-neutral-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900",
+            !converting && "hover:bg-neutral-800"
+          )}
+        >
+          {converting ? (
+            "変換中…"
+          ) : (
+            <>
+              画像を選択
+              <PhotoIcon className="h-6 w-6" aria-hidden="true" />
+            </>
+          )}
+        </button>
+
+        <input
+          ref={imageInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleImageInputChange}
+        />
+
+        {mibaeImageDataURL && (
+          <a download={`油彩ドット絵.png`} href={mibaeImageDataURL}>
+            <img alt="変換後の画像" src={mibaeImageDataURL} className="mt-4" />
+          </a>
+        )}
+      </div>
+
+      <div className="mt-16">
+        {mibaeImageDataURL && (
+          <div className="mb-4">
+            <a
+              href="https://twitter.com/intent/tweet?hashtags=premy"
+              target="_blank"
+              className="inline-flex items-center justify-center gap-x-2 rounded-md bg-neutral-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 hover:bg-neutral-800"
+            >
+              Xにポスト
+              <ShareIcon className="h-6 w-6" aria-hidden="true" />
+            </a>
+
+            <p className="mt-4">
+              #premy
+              タグ付きでXにポストすると、このサイトに掲載されることがあります。
+            </p>
+          </div>
+        )}
+
         <Suspense>
           <Tweets />
         </Suspense>

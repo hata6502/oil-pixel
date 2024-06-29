@@ -6,7 +6,7 @@
     "type": "git",
     "url": "git+https://github.com/hata6502/oil-pixel.git"
   },
-  "author": "Tomoyuki Hata",
+  "author": "hata6502",
   "bugs": {
     "url": "https://github.com/hata6502/oil-pixel/issues"
   },
@@ -21,8 +21,13 @@
   "devDependencies": {
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
+    "@types/color": "^3.0.6",
+    "@types/color-diff": "^1.2.5",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "clsx": "^2.1.1",
+    "color": "^4.2.3",
+    "color-diff": "^1.4.0",
     "esbuild": "^0.18.13",
     "http-server": "^14.1.1",
     "react": "^18.2.0",
