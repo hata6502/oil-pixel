@@ -31,7 +31,7 @@ const tweetIDsURL =
 
 export const App: FunctionComponent = () => {
   const [converting, setConverting] = useState(false);
-  const [mibaeImageDataURL, setMibaeImageDataURL] = useState("");
+  const [mibaeImageURL, setMibaeImageURL] = useState("");
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const handleSelectImageButtonClick = () => {
@@ -70,7 +70,10 @@ export const App: FunctionComponent = () => {
       });
 
       for (const mibaeImageDataURL of mibaeFilter(image)) {
-        setMibaeImageDataURL(mibaeImageDataURL);
+        URL.revokeObjectURL(mibaeImageURL);
+        const mibaeImageResponse = await fetch(mibaeImageDataURL);
+        setMibaeImageURL(URL.createObjectURL(await mibaeImageResponse.blob()));
+
         await new Promise((resolve) => setTimeout(resolve));
       }
     } finally {
@@ -134,15 +137,15 @@ export const App: FunctionComponent = () => {
           onChange={handleImageInputChange}
         />
 
-        {mibaeImageDataURL && (
-          <a download={`油彩ドット絵.png`} href={mibaeImageDataURL}>
-            <img alt="変換後の画像" src={mibaeImageDataURL} className="mt-4" />
+        {mibaeImageURL && (
+          <a download={`油彩ドット絵.png`} href={mibaeImageURL}>
+            <img alt="変換後の画像" src={mibaeImageURL} className="mt-4" />
           </a>
         )}
       </div>
 
       <div className="mt-16">
-        {mibaeImageDataURL && (
+        {mibaeImageURL && (
           <div className="mb-4">
             <a
               href="https://twitter.com/intent/tweet?hashtags=premy"
