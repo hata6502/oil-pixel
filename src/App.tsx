@@ -1,5 +1,6 @@
 import {
   DocumentTextIcon,
+  PencilSquareIcon,
   PhotoIcon,
   ShareIcon,
 } from "@heroicons/react/24/outline";
@@ -151,14 +152,25 @@ export const App: FunctionComponent = () => {
       <div className="mt-16">
         {mibaeImageURL && (
           <div className="mb-4">
-            <a
-              href="https://twitter.com/intent/tweet?hashtags=premy"
-              target="_blank"
-              className="inline-flex items-center justify-center gap-x-2 rounded-md bg-neutral-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 hover:bg-neutral-800"
-            >
-              Xにポスト
-              <ShareIcon className="h-6 w-6" aria-hidden="true" />
-            </a>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href="https://premy.hata6502.com/"
+                target="_blank"
+                className="inline-flex items-center justify-center gap-x-2 rounded-md bg-neutral-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 hover:bg-neutral-800"
+              >
+                premyで手直し
+                <PencilSquareIcon className="h-6 w-6" aria-hidden="true" />
+              </a>
+
+              <a
+                href="https://twitter.com/intent/tweet?hashtags=premy"
+                target="_blank"
+                className="inline-flex items-center justify-center gap-x-2 rounded-md bg-neutral-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 hover:bg-neutral-800"
+              >
+                Xにポスト
+                <ShareIcon className="h-6 w-6" aria-hidden="true" />
+              </a>
+            </div>
 
             <p className="mt-4">
               #premy
