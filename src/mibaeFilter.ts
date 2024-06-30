@@ -14,7 +14,9 @@ export function* mibaeFilter(image: HTMLImageElement) {
   );
   canvasElement.width = image.naturalWidth * normalizeZoom;
   canvasElement.height = image.naturalHeight * normalizeZoom;
-  const canvasContext = canvasElement.getContext("2d");
+  const canvasContext = canvasElement.getContext("2d", {
+    willReadFrequently: true,
+  });
   if (!canvasContext) {
     throw new Error("Canvas is not a 2D context");
   }
@@ -32,7 +34,9 @@ export function* mibaeFilter(image: HTMLImageElement) {
   const shrinkedCanvasElement = document.createElement("canvas");
   shrinkedCanvasElement.width = canvasElement.width / density;
   shrinkedCanvasElement.height = canvasElement.height / density;
-  const shrinkedContext = shrinkedCanvasElement.getContext("2d");
+  const shrinkedContext = shrinkedCanvasElement.getContext("2d", {
+    willReadFrequently: true,
+  });
   if (!shrinkedContext) {
     throw new Error("Canvas is not a 2D context");
   }
