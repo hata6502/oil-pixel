@@ -84,8 +84,12 @@ export const App: FunctionComponent = () => {
   return (
     <div className="bg-white mx-auto max-w-4xl mb-16 px-8">
       <div className="mt-16">
-        <h2 className="flex flex-col-reverse items-center gap-4 text-5xl font-bold md:flex-row">
-          油彩<wbr />ドット絵<wbr />メーカー
+        <h2 className="flex flex-col-reverse items-center gap-4 break-keep break-words font-bold text-5xl md:flex-row">
+          油彩
+          <wbr />
+          ドット絵
+          <wbr />
+          メーカー
           <img src="favicon.png" className="inline w-24" />
         </h2>
 
@@ -138,7 +142,7 @@ export const App: FunctionComponent = () => {
         />
 
         {mibaeImageURL && (
-          <a download={`油彩ドット絵.png`} href={mibaeImageURL}>
+          <a download={`油彩ドット絵-${Date.now()}.png`} href={mibaeImageURL}>
             <img alt="変換後の画像" src={mibaeImageURL} className="mt-4" />
           </a>
         )}
