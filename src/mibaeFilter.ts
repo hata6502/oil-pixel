@@ -5,6 +5,8 @@ import { palettes } from "./palettes";
 import { ToneType, tonePeriod, tones } from "./tones";
 
 export function* mibaeFilter(image: HTMLImageElement) {
+  console.time("mibaeFilter");
+
   const canvasElement = document.createElement("canvas");
   const normalizeZoom = Math.min(
     Math.sqrt((640 * 360) / (image.naturalWidth * image.naturalHeight)),
@@ -16,6 +18,8 @@ export function* mibaeFilter(image: HTMLImageElement) {
   if (!canvasContext) {
     throw new Error("Canvas is not a 2D context");
   }
+  canvasContext.fillStyle = "#ffffff";
+  canvasContext.fillRect(0, 0, canvasElement.width, canvasElement.height);
   canvasContext.drawImage(
     image,
     0,
@@ -188,6 +192,8 @@ export function* mibaeFilter(image: HTMLImageElement) {
 
     yield canvasElement.toDataURL();
   }
+
+  console.timeEnd("mibaeFilter");
 }
 
 interface Pattern {
@@ -343,12 +349,13 @@ const getBestPattern = ({
 
       colorDiffCache.set(colorDiffKey, diff);
       distance += diff;
+      if (distance >= bestPatternDistance) {
+        return;
+      }
     }
 
-    if (distance < bestPatternDistance) {
-      bestPattern = pattern;
-      bestPatternDistance = distance;
-    }
+    bestPattern = pattern;
+    bestPatternDistance = distance;
   });
 
   return bestPattern;
