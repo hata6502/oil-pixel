@@ -163,7 +163,10 @@ export const App: FunctionComponent = () => {
               </a>
 
               <a
-                href="https://twitter.com/intent/tweet?hashtags=premy"
+                href={`https://twitter.com/intent/tweet?${new URLSearchParams({
+                  hashtags: "premy",
+                  url: "https://oil-pixel.hata6502.com/",
+                })}`}
                 target="_blank"
                 className="inline-flex items-center justify-center gap-x-2 rounded-md bg-neutral-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 hover:bg-neutral-800"
               >
