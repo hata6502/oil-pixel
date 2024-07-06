@@ -82,6 +82,11 @@ export const App: FunctionComponent = () => {
     }
   };
 
+  const handleShareButtonClick = () => {
+    // @ts-expect-error
+    gtag?.("event", "share");
+  };
+
   return (
     <div className="bg-white mx-auto max-w-4xl mb-16 px-8">
       <div className="mt-16">
@@ -169,6 +174,7 @@ export const App: FunctionComponent = () => {
                 })}`}
                 target="_blank"
                 className="inline-flex items-center justify-center gap-x-2 rounded-md bg-neutral-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 hover:bg-neutral-800"
+                onClick={handleShareButtonClick}
               >
                 Xにポスト
                 <ShareIcon className="h-6 w-6" aria-hidden="true" />
