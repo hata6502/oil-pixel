@@ -25,6 +25,10 @@ const faqs = [
     title: "mibae filter開発風景",
     url: "https://scrapbox.io/hata6502/mibae_filter",
   },
+  {
+    title: "写真地図",
+    url: "https://almap.hata6502.com/",
+  },
 ];
 
 const tweetIDsURL =
